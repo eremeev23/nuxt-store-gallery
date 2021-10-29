@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <ItemAdder />
-    <ItemsBox :items__data=getItems />
+    <ItemAdder :items__array=getItems />
+    <ItemsBox />
   </div>
 </template>
 
@@ -30,6 +30,9 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+body {
+  background: #f1f1f1;
 
   #app {
     margin: 0 auto;
@@ -38,7 +41,6 @@ export default {
     min-height: 100vh;
     width: 96vw;
     padding: 32px;
-    background: #f1f1f1;
     font-family: 'Source Sans Pro', sans-serif;
   }
 }
