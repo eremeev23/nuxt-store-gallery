@@ -301,7 +301,7 @@ export default {
           max-width: none;
           margin: 4px 0 16px;
           padding: 10px 16px;
-          border: none;
+          border: 1px solid $grey;
           box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.4);
 
           font-size: 12px;
@@ -331,7 +331,7 @@ export default {
           margin-bottom: 16px;
           padding: 10px 16px;
           resize: vertical;
-          border: none;
+          border: 1px solid $grey;
           box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
         }
         #item-description::placeholder {
