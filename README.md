@@ -10,6 +10,8 @@ $ yarn install
 $ yarn dev
 
 # build for production and launch server
+Сборка настроена с Vercel-builder
+
 $ yarn build
 $ yarn start
 

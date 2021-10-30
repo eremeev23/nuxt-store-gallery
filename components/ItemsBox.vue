@@ -12,15 +12,19 @@
         <div class="image__wrapper">
           <img :src=item.image :alt="item" class="item__image">
         </div>
+
         <h3 class="item__name">
           {{ item.name }}
         </h3>
+
         <p class="item__description">
           {{ item.description }}
         </p>
+
         <span class="item__price">
           {{ item.price }} руб.
         </span>
+
         <button class="delete__button" @click.prevent="removeItem">
           <img src="../static/assets/images/del_logo.png" alt="" class="delete">
         </button>
@@ -44,8 +48,8 @@ export default {
     ...mapGetters(['getItems'])
   },
   methods: {
-    ...mapMutations(['deleteItem','sortItems', 'splitPrice']),
-
+    ...mapMutations(['deleteItem','sortItems']),
+    // REMOVE ITEM
     removeItem: function(e) {
       const button = e.target;
       let item = button.parentElement;
@@ -57,15 +61,11 @@ export default {
       item.style = 'animation: deleteItem 1s ease; opacity: 0'
       setTimeout(() => {this.deleteItem(item.id)}, 900)
     },
-
+    // SORT ALL ITEMS
     sort: function() {
       this.sortItems(this.keyToSort)
     },
-
-    spliting: function() {
-      this.splitPrice();
-    }
-    
+    // 
   }
 }
 </script>

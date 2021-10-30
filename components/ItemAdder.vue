@@ -1,9 +1,10 @@
 <template>
   <div class="adder__box">
+    <!-- FORM TITLE  -->
     <h1>Добавление товара</h1>
-    
+    <!-- FORM  -->
     <form class="add-item__form" @submit.prevent="addItem">
-      
+      <!-- ALL INPUTS  -->
       <div class="input__box">
         <label for="item-name" class="label required">
           <span class="label-span">Наименование товара</span>
@@ -43,7 +44,7 @@
           required>
           <span class="invalid__span">Обязательное поле</span>
       </div>
-
+      <!-- ADD BUTTON  -->
       <button type="submit" class="add__button" disabled>Добавить товар</button>
     </form>
   </div>
@@ -72,7 +73,7 @@ export default {
   },
   methods: {
     ...mapMutations(['addNewItem']),
-
+    // CHECK IS FORM VALIDATED
     filledCheck: function() {
       const required = document.querySelectorAll('.input__text');
       const textArea = document.querySelector('#item-description');
@@ -111,7 +112,7 @@ export default {
         submitBtn.setAttribute('disabled', true)
       }
     },
-
+    // ADDING NEW ITEM
     addItem: function() {
       let x = this.price;
       let size = 3;
@@ -285,7 +286,7 @@ export default {
     }
   }
 }
-
+// ADAPTATION FOR MOBILE PHONES 
 @media (max-width: 440px) {
   .adder__box {
     width: 100%;

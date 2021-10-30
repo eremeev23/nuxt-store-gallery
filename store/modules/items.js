@@ -3,9 +3,11 @@ export default {
   },
 
   mutations: {
+    //ADDING NEW ITEM TO STATE
     addNewItem: (state, item) => {
       state.items.push(item)
     },
+    //DELETING ITEMS
     deleteItem: (state, id) => {
       for (let i = 0; i < state.items.length; i++) {
         if (id == state.items[i].id) {
@@ -13,6 +15,7 @@ export default {
         }
       }
     },
+    //SORTING ITEMS BY PRICE
     sortItems: (state, key) => {
       if (key === 'min') {
         state.items.sort((itemA, itemB) => {
