@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
+    "build": "nuxt build --output public",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate --output public"
   },
   "dependencies": {
     "@nuxtjs/vercel-builder": "^0.22.1",
