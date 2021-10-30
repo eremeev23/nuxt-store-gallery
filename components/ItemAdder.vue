@@ -243,6 +243,7 @@ export default {
         padding: 10px 16px;
         resize: none;
         border: none;
+        border-radius: 4px;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         transition: all .3s ease;
       }
@@ -292,7 +293,7 @@ export default {
     width: 100%;
     padding: 0 8px;
     .add-item__form {
-      box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+      box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.4);
       .input__box {
 
         .input__text {
@@ -301,7 +302,7 @@ export default {
           margin: 4px 0 16px;
           padding: 10px 16px;
           border: none;
-          box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.4);
 
           font-size: 12px;
           line-height: 15px;
