@@ -1,8 +1,9 @@
 <template>
   <div class="adder__box">
     <h1>Добавление товара</h1>
-
+    
     <form class="add-item__form" @submit.prevent="addItem">
+      
       <div class="input__box">
         <label for="item-name" class="label required">
           <span class="label-span">Наименование товара</span>
@@ -26,7 +27,7 @@
           name="image-url"
           placeholder="Введите ссылку"
           v-model="image"
-          pattern="https://.*"
+          pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
           required>
           <span class="invalid__span">Обязательное поле</span>
       </div>
@@ -75,6 +76,10 @@ export default {
     filledCheck: function() {
       const required = document.querySelectorAll('.input__text');
       const textArea = document.querySelector('#item-description');
+      const submitBtn = document.querySelector('.add__button');
+
+      submitBtn.classList.remove('added')
+      submitBtn.innerText = 'Добавить товар'
 
       if (textArea.value) {
         textArea.style = 'border: 1px solid #7BAE73; border-radius: 4px';
@@ -101,27 +106,52 @@ export default {
       }
 
       if (this.formFilled) {
-        const submitBtn = document.querySelector('.add__button');
         submitBtn.removeAttribute('disabled')
       } else {
-        const submitBtn = document.querySelector('.add__button');
         submitBtn.setAttribute('disabled', true)
       }
     },
 
     addItem: function() {
+      let x = this.price;
+      let size = 3;
+      let subarray = [];
+
+      x = x.split('').reverse();
+
+      for (let i = 0; i < Math.ceil(x.length/size); i++) {
+        subarray[i] = x.slice((i*size), (i*size) + size);
+      }
+
+      for (let i = 0; i < subarray.length; i++) {
+        subarray[i] = subarray[i].reverse().join('')
+      }
+
+      let price = subarray.reverse().join(' ');
+
       this.addNewItem({
         id: this.id,
         name: this.name,
         description: this.description,
         image: this.image,
-        price: this.price
+        price: price
       })
 
       this.name = '';
       this.description = '';
       this.image = '';
       this.price = '';
+
+      const required = document.querySelectorAll('.input__text');
+      const submitBtn = document.querySelector('.add__button');
+
+      submitBtn.classList.add('added')
+      submitBtn.innerText = 'Добавлено'
+      submitBtn.setAttribute('disabled', true)
+
+      required.forEach(input => {
+          input.style = 'border: none';
+      })
     }
   }
 }
@@ -130,14 +160,13 @@ export default {
 <style lang='scss'>
 .adder__box {
   width: 25%;
-  // max-width: 25%;
-  color: #3F3F3F;
+  color: $black;
 
   h1 {
-    font-style: normal;
-    font-weight: 600;
-    font-size: 28px;
-    margin: 4px 0 13px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 28px;
+      margin: 4px 0 13px;
   }
 
   .add-item__form {
@@ -145,8 +174,10 @@ export default {
     flex-direction: column;
     padding: 24px;
     background: #FFFEFB;
+    color: $dark;
     box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04), 0px 6px 10px rgba(0, 0, 0, 0.02);
 
+    
     .input__box {
       position: relative;
       display: flex;
@@ -154,7 +185,7 @@ export default {
       margin-bottom: 16px;
 
       .label {
-        font-size: 10px;
+        font-size: 12px;
       }
       .required span {
         position: relative;
@@ -171,15 +202,18 @@ export default {
       }
 
       .input__text {
-        widows: 100%;
+        width: 100%;
         max-width: 284px;
         margin: 4px 0 16px;
         padding: 10px 16px;
         border: none;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         font-size: 12px;
         line-height: 15px;
+        transition: all .3s ease;
+      }
+      .input__text:focus, #item-description:focus {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
       }
       .input__text:valid:required {
         outline: $green;
@@ -193,6 +227,7 @@ export default {
       .input__text::placeholder {
         color: $grey;
       }
+
       .input__number::-webkit-inner-spin-button, 
       .input__number::-webkit-outer-spin-button {
         display: none;
@@ -200,12 +235,15 @@ export default {
       }
 
       #item-description {
+        outline: none;
+        font-family: 'Source Sans Pro', sans-serif;
         min-height: 108px;
         margin-bottom: 16px;
         padding: 10px 16px;
-        resize: vertical;
+        resize: none;
         border: none;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all .3s ease;
       }
       #item-description::placeholder {
         color: $grey;
@@ -242,6 +280,75 @@ export default {
       background: #EEEEEE;
       color: $grey;
     }
+    .added {
+      background: $dark;
+    }
+  }
+}
+
+@media (max-width: 440px) {
+  .adder__box {
+    width: 100%;
+    padding: 0 8px;
+    .add-item__form {
+      box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+      .input__box {
+
+        .input__text {
+          width: 100%;
+          max-width: none;
+          margin: 4px 0 16px;
+          padding: 10px 16px;
+          border: none;
+          box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+
+          font-size: 12px;
+          line-height: 15px;
+        }
+        .input__text:valid:required {
+          outline: $green;
+          border: 1px solid #7BAE73;
+          border-radius: 4px
+        }
+        .input__text:invalid:required {
+          outline: $coral;
+          border-radius: 4px
+        }
+        .input__text::placeholder {
+          color: $grey;
+        }
+        .input__number::-webkit-inner-spin-button, 
+        .input__number::-webkit-outer-spin-button {
+          display: none;
+          -webkit-appearance: none;
+        }
+
+        #item-description {
+          font-family: 'Source Sans Pro', sans-serif;
+          min-height: 108px;
+          margin-bottom: 16px;
+          padding: 10px 16px;
+          resize: vertical;
+          border: none;
+          box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+        #item-description::placeholder {
+          color: $grey;
+        }
+
+        .invalid__span {
+          display: none;
+        }
+        .required__field {
+          display: inline-block;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          font-size: 10px;
+          color: $coral;
+        }
+      }
+    }   
   }
 }
 </style>

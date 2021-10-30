@@ -9,7 +9,9 @@
     <!-- ITEMS LIST  -->
     <div class="items__wrapper">
       <div class="item" v-for="item in getItems" :key="item.id" :id='item.id'>
-        <img :src=item.image :alt="item">
+        <div class="image__wrapper">
+          <img :src=item.image :alt="item" class="item__image">
+        </div>
         <h3 class="item__name">
           {{ item.name }}
         </h3>
@@ -42,7 +44,7 @@ export default {
     ...mapGetters(['getItems'])
   },
   methods: {
-    ...mapMutations(['deleteItem','sortItems']),
+    ...mapMutations(['deleteItem','sortItems', 'splitPrice']),
 
     removeItem: function(e) {
       const button = e.target;
@@ -54,14 +56,16 @@ export default {
 
       item.style = 'animation: deleteItem 1s ease; opacity: 0'
       setTimeout(() => {this.deleteItem(item.id)}, 900)
-      // this.deleteItem(item.id)
-      console.log(item);
-
     },
 
     sort: function() {
       this.sortItems(this.keyToSort)
+    },
+
+    spliting: function() {
+      this.splitPrice();
     }
+    
   }
 }
 </script>
@@ -76,7 +80,7 @@ export default {
     cursor: pointer;
     position: absolute;
     top: 0;
-    right: 0;
+    right: 18px;
     padding: 10px 16px;
     border: none;
     border-radius: 4px;
@@ -92,9 +96,10 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 16px;
+    transition: all .4s ease;
 
     .item {
-      
+      animation: loaded 1s;
       cursor: pointer;
       position: relative;
       max-width: 332px;
@@ -102,6 +107,20 @@ export default {
       border-radius: 4px;
       box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04), 0px 6px 10px rgba(0, 0, 0, 0.02);
       transition: all .3s ease;
+      
+      .image__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        max-height: 200px;
+        overflow: hidden;
+        border-radius: 4px 4px 0 0;
+
+        .item__image {
+          max-width: 332px;
+        }
+      }
 
       .item__name, .item__description, .item__price {
         margin: 0 16px;
@@ -131,15 +150,25 @@ export default {
         position: absolute;
         top: 0;
         right: 0;
-        transform: translateX(30%) translateY(-30%);
+        transform: translateX(20%) translateY(-20%);
         border: none;
         border-radius: 10px;
         padding: 8px 9.5px;
         background: $coral;
         display: none;
+        transition: all .4s ease;
+      }
+      .delete__button:disabled {
+        cursor: not-allowed !important;
+        pointer-events: all !important;
+      }
+      .delete__button:hover {
+        background: #ff5151;
       }
     }
     .item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.1), 0px 6px 10px rgba(0, 0, 0, 0.08);
       .delete__button {
         display: block;
       }
@@ -147,22 +176,83 @@ export default {
   }
 }
 
+@media (max-width: 440px) {
+  .items__box {
+    width: 100%;
+    margin-top: 24px;
+    
+    .sort__select {
+      top: 4px;
+      right: 2%;
+      background: none;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    .items__wrapper {
+      width: 96%;
+      display: grid;
+      grid-template-columns: 1fr;
+      margin: 0 auto;
+
+      .item {
+        max-width: none;
+        width: 100%;
+        box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.1), 0px 6px 10px rgba(0, 0, 0, 0.08);
+
+        .image__wrapper {
+          max-width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0 auto;
+          max-height: 200px;
+          overflow: hidden;
+          border-radius: 4px 4px 0 0;
+
+          .item__image {
+            max-height: none;
+            max-width: none;
+            width: 100%;
+          }
+        }
+        
+        .item__name, .item__description, .item__price {
+          margin: 4px 16px;
+        }
+
+        .delete__button {
+          display: block;
+          transform: translateX(10%) translateY(-10%);
+          border-radius: 4px;
+          background: $coral;
+        }
+      }
+    }
+  }
+} 
+
 @keyframes deleteItem {
   from {
     height: 100%;
-    // transform: translateY(0) rotate(0);
+    transform: translateY(0) rotate(0);
     opacity: 1;
   }
 
   to {
     height: 0%;
-    // transform: translateY(100px) rotate(45deg);
+    transform: translateY(100px);
     opacity: 0;
   }
 } 
+@keyframes loaded {
+  from {
+    opacity: 0;
+  }
 
+  to {
+    opacity: 1;
+  }
+} 
 
-  
-  
-  
+ 
 </style>

@@ -17,9 +17,12 @@ export default {
     ItemAdder,
     ItemsBox
   },
-  computed: {
-    ...mapGetters(['getItems'])
-  }
+  computed: { 
+    ...mapGetters(['getItems']),
+    loaded() {
+      mapGetters(['getItems']);
+    },
+  },
 }
 </script>
 
@@ -31,18 +34,30 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
-  background: #f1f1f1;
+  background: #f5f5f5;
 
   #app {
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     min-height: 100vh;
-    width: 96vw;
+    width: 1440px;
     padding: 32px;
     font-family: 'Source Sans Pro', sans-serif;
   }
 }
 
+@media (max-width: 440px) {
+  body {
+    background: #fff;
+    #app {
+      flex-direction: column;
+      width: 100vw;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
 </style>

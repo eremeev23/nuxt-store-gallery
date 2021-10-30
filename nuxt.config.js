@@ -34,6 +34,9 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     "@nuxtjs/style-resources",
+    ['nuxt-vuex-localstorage', {
+      localStorage: ['items']
+    }]
   ],
   styleResources: {
     scss: ["~/static/assets/scss/_colors.scss"]
